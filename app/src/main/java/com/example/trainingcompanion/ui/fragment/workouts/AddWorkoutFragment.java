@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.trainingcompanion.R;
 import com.example.trainingcompanion.data.model.Exercise;
 import com.example.trainingcompanion.databinding.FragmentAddWorkoutBinding;
-import com.example.trainingcompanion.extra.ToastUtilsKt;
 import com.example.trainingcompanion.ui.fragment.Inform;
 import com.example.trainingcompanion.ui.viewmodel.workouts.AddWorkoutViewModel;
 
@@ -139,7 +139,7 @@ public class AddWorkoutFragment extends Fragment implements Inform {
 
     @Override
     public void onSuccess(String message) {
-        ToastUtilsKt.toast(requireContext(), message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -151,6 +151,6 @@ public class AddWorkoutFragment extends Fragment implements Inform {
 
     @Override
     public void onFailure(String message) {
-        ToastUtilsKt.toastLong(requireContext(), message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

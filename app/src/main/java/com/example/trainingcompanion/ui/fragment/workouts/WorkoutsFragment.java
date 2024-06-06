@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,12 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trainingcompanion.R;
 import com.example.trainingcompanion.databinding.FragmentWorkoutsBinding;
-import com.example.trainingcompanion.extra.ToastUtilsKt;
 import com.example.trainingcompanion.ui.adapter.CategoryAdapter;
 import com.example.trainingcompanion.ui.adapter.WorkoutAdapter;
 import com.example.trainingcompanion.ui.viewmodel.workouts.WorkoutsViewModel;
-
-import java.util.Objects;
 
 public class WorkoutsFragment extends Fragment {
     private static WorkoutsViewModel viewModel;
@@ -68,11 +66,11 @@ public class WorkoutsFragment extends Fragment {
         ImageView editWorkoutButton = binding.editWorkoutsButton;
         editWorkoutButton.setOnClickListener(v -> {
             if (!isEditing) {
-                ToastUtilsKt.toast(requireContext(), "Editing mode");
+                Toast.makeText(getContext(), "Editing mode", Toast.LENGTH_SHORT).show();
                 isEditing = true;
                 addWorkoutButton.setVisibility(View.GONE);
             } else {
-                ToastUtilsKt.toast(requireContext(), "Viewing mode");
+                Toast.makeText(getContext(), "Viewing mode", Toast.LENGTH_SHORT).show();
                 isEditing = false;
                 addWorkoutButton.setVisibility(View.VISIBLE);
             }

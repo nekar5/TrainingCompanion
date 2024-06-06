@@ -3,14 +3,6 @@ package com.example.trainingcompanion.ui.fragment.exercises;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +11,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.trainingcompanion.R;
 import com.example.trainingcompanion.data.model.Category;
 import com.example.trainingcompanion.databinding.FragmentAddExerciseBinding;
-import com.example.trainingcompanion.extra.ToastUtilsKt;
 import com.example.trainingcompanion.ui.fragment.Inform;
 import com.example.trainingcompanion.ui.viewmodel.exercises.AddExerciseViewModel;
 
@@ -110,7 +109,7 @@ public class AddExerciseFragment extends Fragment implements Inform {
 
     @Override
     public void onSuccess(String message) {
-        ToastUtilsKt.toast(requireContext(), message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.popBackStack();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -122,6 +121,6 @@ public class AddExerciseFragment extends Fragment implements Inform {
 
     @Override
     public void onFailure(String message) {
-        ToastUtilsKt.toastLong(requireContext(), message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

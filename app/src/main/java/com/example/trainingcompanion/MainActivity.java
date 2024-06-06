@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
@@ -25,7 +26,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.trainingcompanion.databinding.ActivityMainBinding;
 import com.example.trainingcompanion.extra.NotificationHelper;
-import com.example.trainingcompanion.extra.ToastUtilsKt;
 import com.example.trainingcompanion.extra.heartrate.HeartRateListenerService;
 import com.example.trainingcompanion.ui.fragment.HistoryFragment;
 import com.example.trainingcompanion.ui.fragment.SettingsFragment;
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                     backPressedOnce = true;
-                    ToastUtilsKt.toast(MainActivity.this, "Press back again to exit");
+                    Toast.makeText(MainActivity.this, "Press back again to exit", Toast.LENGTH_SHORT).show();
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 NotificationHelper.createNotificationChannel(this);
             } else {
-                ToastUtilsKt.toastLong(this, "Notification permission denied");
+                Toast.makeText(MainActivity.this, "Notification permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }

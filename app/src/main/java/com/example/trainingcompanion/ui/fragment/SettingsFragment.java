@@ -11,6 +11,13 @@ import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,16 +26,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Switch;
-
 import com.example.trainingcompanion.R;
 import com.example.trainingcompanion.databinding.FragmentSettingsBinding;
-import com.example.trainingcompanion.extra.ToastUtilsKt;
 import com.example.trainingcompanion.ui.viewmodel.SettingsViewModel;
 
 import java.util.Objects;
@@ -185,11 +184,11 @@ public class SettingsFragment extends Fragment implements Inform {
 
     @Override
     public void onSuccess(String message) {
-        ToastUtilsKt.toast(requireContext(), message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onFailure(String message) {
-        ToastUtilsKt.toastLong(this.getContext(), message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

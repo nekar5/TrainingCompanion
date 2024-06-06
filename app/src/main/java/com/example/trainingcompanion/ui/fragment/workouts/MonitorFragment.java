@@ -37,7 +37,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.trainingcompanion.MainActivity;
 import com.example.trainingcompanion.R;
-import com.example.trainingcompanion.extra.ToastUtilsKt;
 import com.example.trainingcompanion.extra.heartrate.HeartRateListenerService;
 import com.example.trainingcompanion.ui.viewmodel.workouts.MonitorViewModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -95,7 +94,7 @@ public class MonitorFragment extends Fragment {
                     editor.putBoolean("useBuiltInSensors", true);
                     editor.apply();
                 } else {
-                    ToastUtilsKt.toastLong(requireContext(), "Heart rate sensor permission denied.");
+                    Toast.makeText(getContext(), "Heart rate sensor permission denied.", Toast.LENGTH_SHORT).show();
                     editor.putBoolean("useBuiltInSensors", false);
                     editor.apply();
                 }
@@ -173,7 +172,7 @@ public class MonitorFragment extends Fragment {
             LinearLayout layout = root.findViewById(R.id.connectionLayout);
             layout.setVisibility(View.VISIBLE);
             bluetoothStatus = root.findViewById(R.id.connectionStatus);
-            ToastUtilsKt.toast(requireContext(), "Accessing bluetooth sensors");
+            Toast.makeText(getContext(), "Accessing bluetooth sensors", Toast.LENGTH_SHORT).show();
 
             MainActivity activity = (MainActivity) getActivity();
             if (activity != null) {
@@ -262,7 +261,7 @@ public class MonitorFragment extends Fragment {
         if (useBuiltInSensors)
             if (heartRateSensor != null && sensorManager != null) {
                 sensorManager.registerListener(heartRateListener, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
-                ToastUtilsKt.toast(requireContext(), "Initializing");
+                Toast.makeText(getContext(), "Initializing", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Heart rate sensor not available.", Toast.LENGTH_SHORT).show();
             }

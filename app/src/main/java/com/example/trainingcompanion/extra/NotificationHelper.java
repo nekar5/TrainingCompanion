@@ -6,6 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -38,6 +39,10 @@ public class NotificationHelper {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(activity);
 
+        PowerManager powerManager = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TrainingCompanion::NotificationWakeLock");
+        wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */); // Acquire for 10 minutes or until explicitly released
+
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             createNotificationChannel(activity);
             notificationManager.notify(1, builder.build());
@@ -45,6 +50,8 @@ public class NotificationHelper {
         } else {
             Log.e("NotificationHelper", "Notifications permission not given");
         }
+
+        wakeLock.release();
     }
 }
 

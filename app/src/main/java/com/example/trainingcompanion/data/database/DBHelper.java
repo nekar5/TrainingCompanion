@@ -181,17 +181,44 @@ public class DBHelper extends SQLiteOpenHelper {
                 new Exercise("Pushups", 20, categories.get(0), "Use your arms to push your body up"),
                 new Exercise("Pullups", 55, categories.get(0), "Use your arms to pull your body up"),
                 new Exercise("Squats", 1, categories.get(1), "Use your legs to squat and get up"),
-                new Exercise("Jumps", 1, categories.get(5), "Use your legs to jump up and down")
+                new Exercise("Jumps", 1, categories.get(5), "Use your legs to jump up and down"),
+                new Exercise("Bicep Curls", 15, categories.get(0), "Lift weights to work your biceps"),
+                new Exercise("Lunges", 10, categories.get(1), "Step forward and lower your hips"),
+                new Exercise("Plank", 5, categories.get(2), "Hold your body in a straight line"),
+                new Exercise("Burpees", 10, categories.get(5), "Perform a squat, jump, and pushup"),
+                new Exercise("Cycling", 45, categories.get(3), "Pedal to work your legs and cardio"),
+                new Exercise("Bench Press", 20, categories.get(4), "Press the barbell up from your chest"),
+                new Exercise("Deadlifts", 25, categories.get(5), "Lift the barbell from the ground to your hips"),
+                new Exercise("Mountain Climbers", 10, categories.get(5), "Run in place with hands on the ground"),
+                new Exercise("Sit-ups", 15, categories.get(2), "Lift your torso to your knees"),
+                new Exercise("Jump Rope", 20, categories.get(3), "Jump over the rope continuously"),
+                new Exercise("Tricep Dips", 10, categories.get(0), "Lower and raise your body using your arms"),
+                new Exercise("Leg Press", 20, categories.get(1), "Push the weight away with your legs"),
+                new Exercise("Russian Twists", 10, categories.get(2), "Twist your torso side to side"),
+                new Exercise("High Knees", 5, categories.get(3), "Run in place lifting your knees high"),
+                new Exercise("Box Jumps", 15, categories.get(5), "Jump onto and off a box or platform"),
+                new Exercise("Shoulder Press", 20, categories.get(0), "Press the weights above your head"),
+                new Exercise("Calf Raises", 10, categories.get(1), "Raise your heels to stand on your toes"),
+                new Exercise("Flutter Kicks", 5, categories.get(2), "Kick your legs up and down while lying down")
         ));
         for (Exercise e : exerciseList) {
             insertExercise(e);
         }
 
         List<Workout> workoutList = new ArrayList<>(Arrays.asList(
-                new Workout("Legs and cardio", categories.get(5), new ArrayList<Exercise>(Arrays.asList(exerciseList.get(0), exerciseList.get(3))), "Basic legs workout"),
-                new Workout("Mixed workout 1", categories.get(5), new ArrayList<Exercise>(Arrays.asList(exerciseList.get(3), exerciseList.get(4), exerciseList.get(0))), "Basic mixed workout"),
-                new Workout("Arms", categories.get(0), new ArrayList<Exercise>(Arrays.asList(exerciseList.get(1), exerciseList.get(2))), "Basic arms workout"),
-                new Workout("Shortest", categories.get(5), new ArrayList<Exercise>(Arrays.asList(exerciseList.get(4))), "Shortest workout")
+                new Workout("Legs and Cardio", categories.get(5), new ArrayList<>(Arrays.asList(exerciseList.get(0), exerciseList.get(3))), "Basic legs workout"),
+                new Workout("Mixed Workout 1", categories.get(5), new ArrayList<>(Arrays.asList(exerciseList.get(3), exerciseList.get(4), exerciseList.get(0))), "Basic mixed workout"),
+                new Workout("Arms", categories.get(0), new ArrayList<>(Arrays.asList(exerciseList.get(1), exerciseList.get(2))), "Basic arms workout"),
+                new Workout("Shortest", categories.get(5), new ArrayList<>(Arrays.asList(exerciseList.get(4))), "Shortest workout"),
+                new Workout("Legs", categories.get(1), new ArrayList<>(Arrays.asList(exerciseList.get(7), exerciseList.get(6), exerciseList.get(16))), "Leg strengthening workout"),
+                new Workout("Torso", categories.get(2), new ArrayList<>(Arrays.asList(exerciseList.get(8), exerciseList.get(9), exerciseList.get(14))), "Torso conditioning workout"),
+                new Workout("Cardio Blast", categories.get(3), new ArrayList<>(Arrays.asList(exerciseList.get(0), exerciseList.get(11), exerciseList.get(19))), "High-intensity cardio workout"),
+                new Workout("Strength and Endurance", categories.get(4), new ArrayList<>(Arrays.asList(exerciseList.get(10), exerciseList.get(12))), "Strength and endurance training"),
+                new Workout("Upper Body", categories.get(0), new ArrayList<>(Arrays.asList(exerciseList.get(15), exerciseList.get(20))), "Upper body muscle building"),
+                new Workout("Core Strength", categories.get(2), new ArrayList<>(Arrays.asList(exerciseList.get(8), exerciseList.get(17))), "Core strength workout"),
+                new Workout("Full Body", categories.get(5), new ArrayList<>(Arrays.asList(exerciseList.get(8), exerciseList.get(12), exerciseList.get(4))), "Comprehensive full body workout"),
+                new Workout("Power Legs", categories.get(1), new ArrayList<>(Arrays.asList(exerciseList.get(16), exerciseList.get(17))), "Leg power workout"),
+                new Workout("Agility and Speed", categories.get(5), new ArrayList<>(Arrays.asList(exerciseList.get(13), exerciseList.get(18))), "Workout focusing on agility and speed")
         ));
         for (Workout w : workoutList) {
             insertWorkout(w);

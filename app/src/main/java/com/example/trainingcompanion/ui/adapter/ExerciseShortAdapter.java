@@ -53,7 +53,7 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
         holder.cardView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.recycler_animation));
         holder.infoButton.setOnClickListener(view -> showInfo(exercises.get(position).getInstruction()));
 
-        holder.chronometer.setBase(getChronometerBase(exercises.get(position).getDuration()));
+        //holder.chronometer.setBase(getChronometerBase(exercises.get(position).getDuration()));
         holder.chronometer.setTime(exercises.get(position).getDuration());
         chronometers.add(holder.chronometer);
     }
@@ -93,16 +93,17 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
         for (CustomChronometer cc : chronometers) {
             String timeText = cc.getText().toString();
             String[] timeParts = timeText.split(":");
-            if (timeParts.length == 2) {
-                int minutes = Integer.parseInt(timeParts[0]);
-                int seconds = Integer.parseInt(timeParts[1]);
-                totalRemainingTime += (minutes * 60L + seconds) * 1000L;
-            } else {
-                int hours = Integer.parseInt(timeParts[0]);
-                int minutes = Integer.parseInt(timeParts[1]);
-                int seconds = Integer.parseInt(timeParts[2]);
-                totalRemainingTime += (hours * 60L * 60L + minutes * 60L + seconds) * 1000L;
-            }
+            if (!timeParts[0].contains("−"))
+                if (timeParts.length == 2) {
+                    int minutes = Integer.parseInt(timeParts[0]);
+                    int seconds = Integer.parseInt(timeParts[1]);
+                    totalRemainingTime += (minutes * 60L + seconds) * 1000L;
+                } else {
+                    int hours = Integer.parseInt(timeParts[0]);
+                    int minutes = Integer.parseInt(timeParts[1]);
+                    int seconds = Integer.parseInt(timeParts[2]);
+                    totalRemainingTime += (hours * 60L * 60L + minutes * 60L + seconds) * 1000L;
+                }
         }
         return totalRemainingTime;
     }
@@ -159,7 +160,7 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
 
     public void resumeChronometers() {
         for (CustomChronometer cc : chronometers) {
-            if (cc.isRunning()) {
+            if (cc.isRunning() && cc.isPaused()) {
                 cc.resume();
             }
         }
@@ -167,7 +168,7 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
 
     public void pauseChronometers() {
         for (CustomChronometer cc : chronometers) {
-            if (cc.isRunning())
+            if (cc.isRunning() && !cc.isPaused())
                 cc.pause();
         }
     }
@@ -175,7 +176,7 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
     public void resetChronometers() {
         for (CustomChronometer chronometer : chronometers) {
             chronometer.stop();
-            chronometer.setNewBase();
+            chronometer.reset();
         }
     }
 

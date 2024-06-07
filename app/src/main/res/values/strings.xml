@@ -17,18 +17,16 @@
     <string name="exercise">Exercise</string>
     <string name="healthcheck">Health check</string>
     <string name="reset_data">Reset data</string>
-    <string name="schedules">Schedules</string>
     <string name="days">Days</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="schedule">Schedule</string>
     <string name="add_exercise">Add exercise</string>
     <string name="name">Name</string>
     <string name="mixed">Mixed</string>
     <string name="delete_exercise">Delete exercise</string>
     <string name="edit_exercise">Edit exercise</string>
     <string name="reset_user_data">Reset user data</string>
-    <string name="reset_default_data">Reset default data</string>
+    <string name="default_data">Default</string>
     <string name="heartRateMonitor">Heart Rate Monitor</string>
     <string name="heartRate">Heart rate</string>
     <string name="zero">0</string>
@@ -61,4 +59,6 @@
     <string name="caloriess">Calories</string>
     <string name="press_to_start_recording">Press to start HR monitor</string>
     <string name="date">Date</string>
+    <string name="user">User</string>
+    <string name="all">All</string>
 </resources>

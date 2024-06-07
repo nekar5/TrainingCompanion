@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final int version = 2;
-    public static String dbName = "training-assistant.db";
+    public static String dbName = "training-companion.db";
 
     public static final String WORKOUT_TABLE = "workouts";
     public static final String COL_ID = "id";

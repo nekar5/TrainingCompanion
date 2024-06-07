@@ -50,15 +50,15 @@ public class CustomChronometer extends androidx.appcompat.widget.AppCompatTextVi
 
     public void setTime(int time) {
         this.time = time;
-        setText(formatTime(time * 60000L+100L));
+        setText(formatTime(time * 60000L + 100L));
     }
 
     public void start() {
         if (isPaused) {
             isPaused = false;
-            isRunning=false;
+            isRunning = false;
         } else {
-            remainingTime = time * 60000L;
+            remainingTime = time * 60000L + 100L;
         }
         if (!isRunning) {
             isRunning = true;
@@ -173,10 +173,10 @@ public class CustomChronometer extends androidx.appcompat.widget.AppCompatTextVi
     }
 
     public void reset() {
-        if(isRunning){
-            isPaused=false;
+        if (isRunning) {
+            isPaused = false;
             stop();
         }
-        setText(formatTime(time * 60100L));
+        setText(formatTime(time * 6000L + 100L));
     }
 }

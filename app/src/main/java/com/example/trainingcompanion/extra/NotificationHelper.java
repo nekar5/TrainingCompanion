@@ -41,7 +41,7 @@ public class NotificationHelper {
 
         PowerManager powerManager = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TrainingCompanion::NotificationWakeLock");
-        wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */); // Acquire for 10 minutes or until explicitly released
+        wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */);
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             createNotificationChannel(activity);

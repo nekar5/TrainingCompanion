@@ -50,7 +50,7 @@ public class CustomChronometer extends androidx.appcompat.widget.AppCompatTextVi
 
     public void setTime(int time) {
         this.time = time;
-        setText(formatTime(time * 60100L));
+        setText(formatTime(time * 60000L+100L));
     }
 
     public void start() {

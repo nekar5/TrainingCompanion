@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.trainingcompanion.R;
 import com.example.trainingcompanion.data.model.Exercise;
@@ -60,6 +61,9 @@ public class WorkoutFragment extends Fragment {
 
         if (getArguments() != null) {
             viewModel.setCurrentWorkout(getArguments().getString("workoutName"));
+            if (!viewModel.userDataPresent()) {
+                Toast.makeText(getContext(), "Set user data to receive workout analysis", Toast.LENGTH_SHORT).show();
+            }
         } else {
             onDestroy();
         }
@@ -188,11 +192,14 @@ public class WorkoutFragment extends Fragment {
     }
 
     private void showWorkoutSummary() {
-        if (!requireActivity().getSharedPreferences("appPreferences", Context.MODE_PRIVATE)
+        if ((!requireActivity().getSharedPreferences("appPreferences", Context.MODE_PRIVATE)
                 .getBoolean("useBuiltInSensors", true) &&
                 viewModel.serviceBound() &&
                 viewModel.serviceReceiving() &&
-                Objects.requireNonNull(viewModel.getHeartRateData().getValue()).size() > 10) {
+                Objects.requireNonNull(viewModel.getHeartRateData().getValue()).size() > 10) ||
+                requireActivity().getSharedPreferences("appPreferences", Context.MODE_PRIVATE)
+                        .getBoolean("useBuiltInSensors", true) &&
+                        Objects.requireNonNull(viewModel.getHeartRateData().getValue()).size() > 20) {
             SummaryPopUp spu = new SummaryPopUp();
             HeartRateAnalytics hra = viewModel.getHeartRateAnalytics();
             if (hra != null) {

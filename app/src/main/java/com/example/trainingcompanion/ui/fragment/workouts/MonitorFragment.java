@@ -143,7 +143,7 @@ public class MonitorFragment extends Fragment {
                         if (heartRate > 0) {
                             viewModel.updateHeartRate(Math.round(heartRate));
                             updateChart(heartRate);
-                            viewModel.addHeartRateData((int) heartRate);
+                            viewModel.addHeartRateDataBuiltIn((int) heartRate);
 
                             if (Objects.requireNonNull(viewModel.getHeartRateData().getValue()).size() > 20) {
                                 resultsButton.setVisibility(View.VISIBLE);

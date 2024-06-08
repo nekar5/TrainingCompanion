@@ -137,7 +137,7 @@ public class CustomChronometer extends androidx.appcompat.widget.AppCompatTextVi
 
     private void acquireWakeLock() {
         if (wakeLock != null && !wakeLock.isHeld()) {
-            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
+            wakeLock.acquire(time * 60 * 1000L + 5000L);
         }
     }
 
@@ -177,6 +177,6 @@ public class CustomChronometer extends androidx.appcompat.widget.AppCompatTextVi
             isPaused = false;
             stop();
         }
-        setText(formatTime(time * 6000L + 100L));
+        setText(formatTime(time * 60000L + 100L));
     }
 }

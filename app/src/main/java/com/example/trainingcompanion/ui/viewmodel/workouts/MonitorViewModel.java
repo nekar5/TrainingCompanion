@@ -113,6 +113,18 @@ public class MonitorViewModel extends ViewModel {
         }
     }
 
+    public void addHeartRateDataBuiltIn(int value) {
+        ArrayList<Integer> temp = heartRateData.getValue();
+        if (temp != null) {
+            temp.add(value);
+        } else {
+            temp = new ArrayList<>();
+            temp.add(value);
+        }
+        heartRateData.setValue(temp);
+
+    }
+
     public HeartRateAnalytics getHeartRateAnalytics() {
         if (currentWorkout != null) {
             if (userDataPresent()) {

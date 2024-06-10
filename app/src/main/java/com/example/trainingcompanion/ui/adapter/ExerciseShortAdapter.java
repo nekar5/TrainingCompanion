@@ -53,7 +53,6 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
         holder.cardView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.recycler_animation));
         holder.infoButton.setOnClickListener(view -> showInfo(exercises.get(position).getInstruction()));
 
-        //holder.chronometer.setBase(getChronometerBase(exercises.get(position).getDuration()));
         holder.chronometer.setTime(exercises.get(position).getDuration());
         chronometers.add(holder.chronometer);
     }
@@ -75,17 +74,6 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
                 break;
             }
         }
-    }
-
-    public int skipWithInfo() {
-        for (CustomChronometer cc : chronometers) {
-            if (cc.isRunning()) {
-                int temp = cc.getTime();
-                cc.skip();
-                return temp;
-            }
-        }
-        return 0;
     }
 
     public long getTotalRemainingTime() {
@@ -117,10 +105,6 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
-    private long getChronometerBase(int duration) {
-        return SystemClock.elapsedRealtime() + duration * 60000L;
-    }
-
     private void showInfo(String info) {
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle("Exercise instruction:")
@@ -129,7 +113,6 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
                 .setPositiveButton("Got it", (dialogInterface, i) -> dialogInterface.dismiss()).create();
         dialog.show();
         dialog.getWindow().setBackgroundDrawableResource(R.color.light_grey);
-        //dialog.getWindow().setExitTransition();
     }
 
     public void startChronometers() {
@@ -146,16 +129,6 @@ public class ExerciseShortAdapter extends RecyclerView.Adapter<ExerciseShortAdap
             }
         }
         chronometers.get(0).start();
-    }
-
-    private void sendNextExerciseNotification(int exerciseId) {
-        if (exerciseId == exercises.size()) {
-            NotificationHelper.sendNotification((Activity) context, "Exercise skipped",
-                    "Workout finished. Well done");
-        } else {
-            NotificationHelper.sendNotification((Activity) context, "Exercise skipped",
-                    "Next: " + exercises.get(exerciseId).getName());
-        }
     }
 
     public void resumeChronometers() {

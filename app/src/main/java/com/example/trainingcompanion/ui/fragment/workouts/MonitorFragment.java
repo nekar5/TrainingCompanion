@@ -65,10 +65,14 @@ public class MonitorFragment extends Fragment {
     private MonitorViewModel viewModel;
     private HeartRateListenerService service;
 
-
     private final HeartRateListenerService.HeartRateListener heartRateServiceListener = new HeartRateListenerService.HeartRateListener() {
         @Override
         public void onHeartRateChanged(float heartRate) {
+            useBuiltInSensors = service
+                    .getApplication()
+                    .getApplicationContext()
+                    .getSharedPreferences("appPreferences", Context.MODE_PRIVATE)
+                    .getBoolean("useBuiltInSensors", true);
             if (!useBuiltInSensors) {
                 viewModel.updateHeartRate((int) heartRate);
                 updateChart(heartRate);

@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
-          paths: |
+          path: |
             app/build/outputs/apk/release/
             wear/build/outputs/apk/release/
 

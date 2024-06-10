@@ -72,5 +72,6 @@ jobs:
           generate_release_notes: false
           prerelease: false
           files: |
-            app/release/app-release.apk
+            release/TrainingCompanion.apk
+            release/TrainingCompanionWear.apk
             

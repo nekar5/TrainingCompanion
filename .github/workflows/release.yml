@@ -1,3 +1,5 @@
+name: Build and Release
+
 on:
   push:
     branches:
@@ -9,7 +11,7 @@ jobs:
   release_build:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -33,27 +35,44 @@ jobs:
           ENCODED_STRING: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
           SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
         run: |
-          echo $ENCODED_STRING > keystore-b64.txt
-          base64 -d keystore-b64.txt > $SIGNING_KEY_STORE_PATH
+          echo $ENCODED_STRING | base64 -d > $SIGNING_KEY_STORE_PATH
+          ls -l $SIGNING_KEY_STORE_PATH
+          md5sum $SIGNING_KEY_STORE_PATH
+
+      - name: Verify Keystore File Integrity
+        run: |
+          md5sum $SIGNING_KEY_STORE_PATH
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-        
-      - name: Build Release apk
+
+      - name: Build Release APKs
         env:
           SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-        run: ./gradlew assembleRelease
+        run: |
+          ./gradlew assembleRelease
+          ./gradlew :wear:assembleRelease
+
+      - name: Align APKs
+        run: |
+          zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release-aligned.apk
+          zipalign -v -p 4 wear/build/outputs/apk/release/wear-release-unsigned.apk wear/build/outputs/apk/release/wear-release-aligned.apk
+
+      - name: Sign APKs
+        run: |
+          apksigner sign --ks $SIGNING_KEY_STORE_PATH --ks-key-alias $SIGNING_KEY_ALIAS --ks-pass env:SIGNING_STORE_PASSWORD --key-pass env:SIGNING_KEY_PASSWORD app/build/outputs/apk/release/app-release-aligned.apk
+          apksigner sign --ks $SIGNING_KEY_STORE_PATH --ks-key-alias $SIGNING_KEY_ALIAS --ks-pass env:SIGNING_STORE_PASSWORD --key-pass env:SIGNING_KEY_PASSWORD wear/build/outputs/apk/release/wear-release-aligned.apk
 
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
           path: |
-            app/build/outputs/apk/release/
-            wear/build/outputs/apk/release/
+            app/build/outputs/apk/release/app-release-aligned.apk
+            wear/build/outputs/apk/release/wear-release-aligned.apk
 
       - name: Extract tag name
         id: extract_tag
@@ -62,9 +81,8 @@ jobs:
 
       - name: Find APK files
         run: |
-          find . -name "*TrainingCompanion.apk" -type f -exec echo "Found file: {}" \;
-          find . -name "*TrainingCompanionWear.apk" -type f -exec echo "Found file: {}" \;
-    
+          find . -name "*.apk" -type f -exec echo "Found file: {}" \;
+
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
         with:
@@ -80,6 +98,5 @@ jobs:
           generate_release_notes: false
           prerelease: false
           files: |
-            ./app/build/outputs/apk/release/TrainingCompanion.apk
-            ./wear/build/outputs/apk/release/TrainingCompanionWear.apk
-            
+            app/build/outputs/apk/release/app-release-aligned.apk
+            wear/build/outputs/apk/release/wear-release-aligned.apk

@@ -15,7 +15,7 @@ android {
         if (variant.buildType.name == "release" && variant.signingConfig != null) {
             variant.outputs.all {
                 outputFileName = "TrainingCompanionWear.apk"
-                outputDirectory = file("$rootDir/release/")
+                outputDirectory = file("app/release/")
             }
         }
     }

@@ -21,7 +21,6 @@ android {
         if (variant.buildType.name == "release") {
             variant.outputs.all {
                 outputFileName = "TrainingCompanion.apk"
-                //outputDirectory = file("app/release/")
             }
         }
     }

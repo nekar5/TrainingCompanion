@@ -59,6 +59,11 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
+      - name: Find APK files
+        run: |
+          find . -name "*TrainingCompanion.apk" -type f -exec echo "Found file: {}" \;
+          find . -name "*TrainingCompanionWear.apk" -type f -exec echo "Found file: {}" \;
+
     
       - name: Create Github Release
         uses: softprops/action-gh-release@v1

@@ -28,49 +28,26 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
 
-      - name: Install Android SDK
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y lib32stdc++6
-          wget https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
-          mkdir -p $ANDROID_HOME/cmdline-tools
-          unzip commandlinetools-linux-6858069_latest.zip -d $ANDROID_HOME/cmdline-tools
-          yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --licenses
-          $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager "build-tools;30.0.3"
-
       - name: Decode Keystore
         env:
           ENCODED_STRING: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
+          SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
         run: |
           echo $ENCODED_STRING > keystore-b64.txt
-          base64 -d keystore-b64.txt > /home/runner/work/_temp/keystore.jks
-          file /home/runner/work/_temp/keystore.jks
-          keytool -list -keystore /home/runner/work/_temp/keystore.jks -storepass ${{ secrets.SIGNING_STORE_PASSWORD }}
+          base64 -d keystore-b64.txt > $SIGNING_KEY_STORE_PATH
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
         
-      - name: Build Release APKs
+      - name: Build Release apk
         env:
-          SIGNING_KEY_STORE_PATH: /home/runner/work/_temp/keystore.jks
+          SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
         run: ./gradlew assembleRelease
 
-      - name: Align Phone APK
-        run: $ANDROID_HOME/build-tools/30.0.3/zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release-aligned.apk
-
-      - name: Align Wear OS APK
-        run: $ANDROID_HOME/build-tools/30.0.3/zipalign -v -p 4 wear/build/outputs/apk/release/wear-release-unsigned.apk wear/build/outputs/apk/release/wear-release-aligned.apk
-
-      - name: Verify Phone APK Signature
-        run: $ANDROID_HOME/build-tools/30.0.3/apksigner verify app/build/outputs/apk/release/app-release-aligned.apk
-
-      - name: Verify Wear OS APK Signature
-        run: $ANDROID_HOME/build-tools/30.0.3/apksigner verify wear/build/outputs/apk/release/wear-release-aligned.apk
-
-      - name: Upload Release Builds to Artifacts
+      - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
@@ -85,9 +62,9 @@ jobs:
 
       - name: Find APK files
         run: |
-          find . -name "*app-release-aligned.apk" -type f -exec echo "Found file: {}" \;
-          find . -name "*wear-release-aligned.apk" -type f -exec echo "Found file: {}" \;
-
+          find . -name "*TrainingCompanion.apk" -type f -exec echo "Found file: {}" \;
+          find . -name "*TrainingCompanionWear.apk" -type f -exec echo "Found file: {}" \;
+    
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
         with:
@@ -96,12 +73,13 @@ jobs:
           body: |
             # **Installation files:**
             ## Phone app:
-            ### app-release-aligned.apk
+            ### Training_Companion.apk
 
             ## Wear OS app:
-            ### wear-release-aligned.apk
+            ### Training_Companion_Wear.apk
           generate_release_notes: false
           prerelease: false
           files: |
             ./app/build/outputs/apk/release/TrainingCompanion.apk
             ./wear/build/outputs/apk/release/TrainingCompanionWear.apk
+            

@@ -12,10 +12,10 @@ android {
     }
 
     applicationVariants.all { variant ->
-        if (variant.buildType.name == "release" && variant.signingConfig != null) {
+        if (variant.buildType.name == "release") {
             variant.outputs.all {
                 outputFileName = "TrainingCompanionWear.apk"
-                outputDirectory = file("app/release/")
+                //outputDirectory = file("app/release/")
             }
         }
     }

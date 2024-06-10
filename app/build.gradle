@@ -17,6 +17,15 @@ android {
         jvmTarget = "17"
     }
 
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release" && variant.signingConfig != null) {
+            variant.outputs.all {
+                outputFileName = "TrainingCompanion.apk"
+                outputDirectory = file("$rootDir/release/")
+            }
+        }
+    }
+
     defaultConfig {
         applicationId "com.example.trainingcompanion"
         minSdk 26

@@ -11,14 +11,23 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release" && variant.signingConfig != null) {
+            variant.outputs.all {
+                outputFileName = "TrainingCompanionWear.apk"
+                outputDirectory = file("$rootDir/release/")
+            }
+        }
+    }
+
     defaultConfig {
         applicationId "com.example.trainingcompanion"
         minSdk 28
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
     }
+
     signingConfigs {
         release {
             storeFile file("main-keystore.jks")

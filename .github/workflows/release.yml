@@ -47,10 +47,12 @@ jobs:
         run: ./gradlew assembleRelease
 
       - name: Upload Release Build to Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
-          path: app/build/outputs/apk/release/
+          paths: |
+            app/build/outputs/apk/release/
+            wear/build/outputs/apk/release/
 
       - name: Extract tag name
         id: extract_tag

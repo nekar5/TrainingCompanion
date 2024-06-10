@@ -39,32 +39,38 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
         
-      - name: Build Release apk
+      - name: Build Release APKs
         env:
           SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-        run: ./gradlew assembleRelease
+        run: |
+          ./gradlew assembleRelease
+
+      - name: Sign APKs
+        env:
+          KEYSTORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
+          KEYSTORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        run: |
+          apksigner sign --ks $KEYSTORE_PATH --ks-pass pass:$KEYSTORE_PASSWORD --ks-key-alias $KEY_ALIAS --key-pass pass:$KEY_PASSWORD --out TrainingCompanion.apk app/build/outputs/apk/release/TrainingCompanion.apk
+          apksigner sign --ks $KEYSTORE_PATH --ks-pass pass:$KEYSTORE_PASSWORD --ks-key-alias $KEY_ALIAS --key-pass pass:$KEY_PASSWORD --out TrainingCompanionWear.apk wear/build/outputs/apk/release/TrainingCompanionWear.apk
 
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
           path: |
-            app/build/outputs/apk/release/
-            wear/build/outputs/apk/release/
+            TrainingCompanion.apk
+            TrainingCompanionWear.apk
 
       - name: Extract tag name
         id: extract_tag
         if: startsWith(github.ref, 'refs/tags/')
         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-      - name: Find APK files
-        run: |
-          find . -name "*TrainingCompanion.apk" -type f -exec echo "Found file: {}" \;
-          find . -name "*TrainingCompanionWear.apk" -type f -exec echo "Found file: {}" \;
-    
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
         with:
@@ -73,13 +79,12 @@ jobs:
           body: |
             # **Installation files:**
             ## Phone app:
-            ### Training_Companion.apk
+            ### Training_Companion.apk (Signed)
 
             ## Wear OS app:
-            ### Training_Companion_Wear.apk
+            ### Training_Companion_Wear.apk (Signed)
           generate_release_notes: false
           prerelease: false
           files: |
-            ./app/build/outputs/apk/release/TrainingCompanion.apk
-            ./wear/build/outputs/apk/release/TrainingCompanionWear.apk
-            
+            TrainingCompanion.apk
+            TrainingCompanionWear.apk

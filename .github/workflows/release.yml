@@ -63,7 +63,6 @@ jobs:
         run: |
           find . -name "*TrainingCompanion.apk" -type f -exec echo "Found file: {}" \;
           find . -name "*TrainingCompanionWear.apk" -type f -exec echo "Found file: {}" \;
-
     
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
@@ -80,6 +79,6 @@ jobs:
           generate_release_notes: false
           prerelease: false
           files: |
-            app/build/outputs/apk/release/*.apk
-            wear/build/outputs/apk/release/*.apk
+            ./app/build/outputs/apk/release/TrainingCompanion.apk
+            ./wear/build/outputs/apk/release/TrainingCompanionWear.apk
             

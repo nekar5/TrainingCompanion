@@ -73,10 +73,10 @@ jobs:
           body: |
             # **Installation files:**
             ## Phone app:
-            ### Training_Companion.apk
+            ### TrainingCompanion.apk
 
             ## Wear OS app:
-            ### Training_Companion_Wear.apk
+            ### TrainingCompanionWear.apk
           generate_release_notes: false
           prerelease: false
           files: |

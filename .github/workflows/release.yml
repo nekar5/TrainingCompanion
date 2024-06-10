@@ -50,8 +50,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release-artifacts
-          paths: |
-            app/build/outputs/apk/release/
+          path: app/build/outputs/apk/release/
     
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
@@ -66,5 +65,5 @@ jobs:
           generate_release_notes: false
           prerelease: false
           files: |
-            app/release/app-release.apk
+            app/build/outputs/apk/release/app-release.apk
             

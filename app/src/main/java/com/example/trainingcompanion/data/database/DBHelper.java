@@ -194,7 +194,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 new Exercise("Jump Rope", 20, categories.get(3), "Jump over the rope continuously"),
                 new Exercise("Tricep Dips", 10, categories.get(0), "Lower and raise your body using your arms"),
                 new Exercise("Leg Press", 20, categories.get(1), "Push the weight away with your legs"),
-                new Exercise("Russian Twists", 10, categories.get(2), "Twist your torso side to side"),
+                new Exercise("Army Twists", 10, categories.get(2), "Twist your torso side to side"),
                 new Exercise("High Knees", 5, categories.get(3), "Run in place lifting your knees high"),
                 new Exercise("Box Jumps", 15, categories.get(5), "Jump onto and off a box or platform"),
                 new Exercise("Shoulder Press", 20, categories.get(0), "Press the weights above your head"),
